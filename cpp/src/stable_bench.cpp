@@ -3,7 +3,7 @@
 #include "random/stable.h"
 
 int main() {
-    size_t len = 10000000;
+    size_t len = 100000000;
     auto start_time = std::chrono::high_resolution_clock::now();
 
     auto result = rand_stable(len, 0.7);
