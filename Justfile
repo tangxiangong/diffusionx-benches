@@ -1,3 +1,6 @@
+cpp-build:
+    cd cpp && rm -rf build && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
+
 build:
     cd cpp && rm -rf build && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
     cd rust && cargo clean && cargo build --release
