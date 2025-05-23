@@ -8,14 +8,14 @@
 using std::vector;
 using std::format;
 
-Result<double> rand_stable(double alpha, double beta = 0.0, double sigma = 1.0, double mu = 0.0);
+auto rand_stable(double alpha, double beta = 0.0, double sigma = 1.0, double mu = 0.0) -> Result<double>;
 
-Result<vector<double> > rand_stable(size_t n, double alpha, double beta = 0.0,
-                                    double sigma = 1.0, double mu = 0.0);
+auto rand_stable(size_t n, double alpha, double beta = 0.0,
+                                    double sigma = 1.0, double mu = 0.0) -> Result<vector<double>>;
 
-Result<double> rand_skew_stable(double alpha);
+auto rand_skew_stable(double alpha) -> Result<double>;
 
-Result<vector<double> > rand_skew_stable(size_t n, double alpha);
+auto rand_skew_stable(size_t n, double alpha) -> Result<vector<double>>;
 
 class Stable {
     double m_alpha;
@@ -28,14 +28,14 @@ public:
 
     explicit Stable(double alpha, double beta = 0.0, double sigma = 1.0, double mu = 0.0);
 
-    [[nodiscard]] double get_alpha() const;
+    [[nodiscard]] auto get_alpha() const -> double;
 
-    [[nodiscard]] double get_beta() const;
+    [[nodiscard]] auto get_beta() const -> double;
 
-    [[nodiscard]] double get_sigma() const;
+    [[nodiscard]] auto get_sigma() const -> double;
 
-    [[nodiscard]] double get_mu() const;
+    [[nodiscard]] auto get_mu() const -> double;
 
-    [[nodiscard]] Result<vector<double>> sample(size_t n) const;
+    [[nodiscard]] auto sample(size_t n) const -> Result<vector<double>>;
 };
 #endif //STABLE_H

@@ -4,14 +4,14 @@
 #include <format>
 #include <type_traits>
 #include "../error.hpp"
-#include "random/utils.hpp"
+#include "utils.hpp"
 
 using std::format;
 using std::vector;
 
 
 template<typename T = double> requires std::is_floating_point_v<T>
-Result<vector<T> > randn(size_t n, T mean = 0, T stddev = 1) {
+auto randn(size_t n, T mean = 0, T stddev = 1) -> Result<vector<T>> {
     if (stddev <= 0) {
         return Err(Error::InvalidArgument(format(
             "The standard deviation `stddev` must be positive, but got {}",
@@ -27,7 +27,7 @@ Result<vector<T> > randn(size_t n, T mean = 0, T stddev = 1) {
 }
 
 template<typename T = double> requires std::is_floating_point_v<T>
-Result<vector<T> > randn(T mean = 0, T stddev = 1) {
+auto randn(T mean = 0, T stddev = 1) -> Result<vector<T>> {
     if (stddev <= 0) {
         return Err(Error::InvalidArgument(format(
             "The standard deviation `stddev` must be positive, but got {}",
@@ -57,33 +57,33 @@ public:
         }
     }
 
-    [[nodiscard]] T get_mean() const {
+    [[nodiscard]] auto get_mean() const -> T {
         return m_mean;
     }
 
-    [[nodiscard]] T get_stddev() const {
+    [[nodiscard]] auto get_stddev() const -> T {
         return m_stddev;
     }
 
-    [[nodiscard]] Result<std::vector<T> > sample(size_t n) const {
+    [[nodiscard]] auto sample(size_t n) const -> Result<vector<T>> {
         return randn(n, m_mean, m_stddev);
     }
 
-    Normal operator+(const Normal &rhs) const {
-        double stddev = std::sqrt(m_stddev * m_stddev + rhs.get_stddev() * rhs.get_stddev());
+    auto operator+(const Normal &rhs) const -> Normal {
+        double stddev = std::sqrt((m_stddev * m_stddev) + (rhs.get_stddev() * rhs.get_stddev()));
         double mean = m_mean + rhs.get_mean();
         return Normal{mean, stddev};
     }
 
-    Normal operator-() const {
+    auto operator-() const -> Normal {
         return Normal{-m_mean, m_stddev};
     }
 
-    Normal operator-(const Normal &rhs) const {
+    auto operator-(const Normal &rhs) const -> Normal {
         return *this + (-rhs);
     }
 
-    friend Result<Normal> operator*(T a, const Normal &rhs) {
+    friend auto operator*(T a, const Normal &rhs) -> Result<Normal> {
         if (a == 0.0) {
             return Err(Error::InvalidArgument("The scale number should not be zero."));
         }
@@ -92,24 +92,24 @@ public:
         return Ok(Normal{mean, stddev});
     }
 
-    friend Result<Normal> operator*(const Normal &lhs, T a) {
+    friend auto operator*(const Normal &lhs, T a) -> Result<Normal> {
         return a * lhs;
     }
 
-    friend Normal operator+(const Normal &lhs, T a) {
+    friend auto operator+(const Normal &lhs, T a) -> Normal {
         T mean = a + lhs.get_mean();
         return Normal{mean, lhs.get_stddev()};
     }
 
-    friend Normal operator+(T a, const Normal &rhs) {
+    friend auto operator+(T a, const Normal &rhs) -> Normal {
         return rhs + a;
     }
 
-    friend Normal operator-(const Normal &lhs, T a) {
+    friend auto operator-(const Normal &lhs, T a) -> Normal {
         return lhs + (-a);
     }
 
-    friend Normal operator-(T a, const Normal &rhs) {
+    friend auto operator-(T a, const Normal &rhs) -> Normal {
         return a + (-rhs);
     }
 };

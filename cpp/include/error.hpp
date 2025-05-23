@@ -12,7 +12,7 @@ struct Error {
     explicit Error(std::string msg) : message(std::move(msg)) {
     }
 
-    static Error InvalidArgument(const std::string &msg) {
+    static auto InvalidArgument(const std::string &msg) -> Error {
         return Error("Invalid argument: " + msg);
     }
 };
@@ -20,24 +20,24 @@ struct Error {
 template<typename T>
 using Result = std::expected<T, Error>;
 
-inline std::unexpected<Error> Err(const Error &e) {
+inline auto Err(const Error &e) -> std::unexpected<Error> {
     return std::unexpected<Error>(e);
 }
 
 template<typename T>
-std::expected<T, Error> Ok(T &&value) {
+auto Ok(T &&value) -> std::expected<T, Error> {
     return std::expected<T, Error>(std::forward<T>(value));
 }
 
 template<typename T>
-std::optional<T> Some(T &&value) {
+auto Some(T &&value) -> std::optional<T> {
     return std::optional<T>(std::forward<T>(value));
 }
 
 using None = std::nullopt_t;
 
 template<typename T>
-T unwrap(const Result<T> &result) {
+auto unwrap(const Result<T> &result) -> T {
     return *result;
 }
 

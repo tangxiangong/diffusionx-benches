@@ -4,14 +4,15 @@
 #include <vector>
 #include <format>
 #include <type_traits>
+
 #include "../error.hpp"
-#include "random/utils.hpp"
+#include "utils.hpp"
 
 using std::vector;
 using std::format;
 
 template<typename T = double> requires std::is_floating_point_v<T>
-Result<vector<T> > rand_gamma(size_t n, T shape, T scale) {
+auto rand_gamma(size_t n, T shape, T scale) -> Result<vector<T>> {
     if (shape <= 0) {
         return Err(Error::InvalidArgument(format(
             "The shape parameter `shape` must be positive, but got {}",
@@ -35,7 +36,7 @@ Result<vector<T> > rand_gamma(size_t n, T shape, T scale) {
 }
 
 template<typename T = double> requires std::is_floating_point_v<T>
-Result<vector<T> > rand_gamma(T shape, T scale) {
+auto rand_gamma(T shape, T scale) -> Result<vector<T>> {
     if (shape <= 0) {
         return Err(Error::InvalidArgument(format(
             "The shape parameter `shape` must be positive, but got {}",
@@ -81,15 +82,15 @@ public:
         }
     }
 
-    [[nodiscard]] T get_shape() const {
+    [[nodiscard]] auto get_shape() const -> T {
         return m_shape;
     }
 
-    [[nodiscard]] T get_scale() const {
+    [[nodiscard]] auto get_scale() const -> T {
         return m_scale;
     }
 
-    [[nodiscard]] Result<vector<T> > sample(size_t n) const {
+    [[nodiscard]] auto sample(size_t n) const -> Result<vector<T>> {
         return rand_gamma(n, m_shape, m_scale);
     }
 };

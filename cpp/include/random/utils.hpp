@@ -13,7 +13,7 @@ inline auto generator() -> std::mt19937 {
 }
 
 template<typename T, typename F>
-std::vector<T> parallel_generate(size_t n, F sampler) {
+auto parallel_generate(size_t n, F sampler) -> std::vector<T> {
     std::vector<T> result(n);
     if (n == 0) {
         return result;

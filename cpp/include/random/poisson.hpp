@@ -4,14 +4,16 @@
 #include <vector>
 #include <format>
 #include <random>
+#include <type_traits>
+
 #include "../error.hpp"
-#include "random/utils.hpp"
+#include "utils.hpp"
 
 using std::vector;
 using std::format;
 
 template<typename T = unsigned int> requires std::is_unsigned_v<T>
-Result<vector<T> > rand_poisson(size_t n, double rate = 1.0) {
+auto rand_poisson(size_t n, double rate = 1.0) -> Result<vector<T>> {
     if (rate <= 0) {
         return Err(Error::InvalidArgument(format(
             "The rate `rate` must be positive, but got {}",
@@ -27,7 +29,7 @@ Result<vector<T> > rand_poisson(size_t n, double rate = 1.0) {
 }
 
 template<typename T = unsigned int> requires std::is_unsigned_v<T>
-Result<vector<T> > rand_poisson(double rate = 1.0) {
+auto rand_poisson(double rate = 1.0) -> Result<vector<T>> {
     if (rate <= 0) {
         return Err(Error::InvalidArgument(format(
             "The rate `rate` must be positive, but got {}",
@@ -56,12 +58,12 @@ public:
         }
     }
 
-    [[nodiscard]] double get_rate() const {
+    [[nodiscard]] auto get_rate() const -> double {
         return m_rate;
     }
 
     template<typename T = unsigned int> requires std::is_unsigned_v<T>
-    [[nodiscard]] Result<vector<T> > sample(size_t n) const {
+    [[nodiscard]] auto sample(size_t n) const -> Result<vector<T>> {
         return rand_poisson<T>(n, m_rate);
     }
 };

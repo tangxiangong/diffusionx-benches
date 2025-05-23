@@ -5,13 +5,13 @@
 #include <format>
 #include <type_traits>
 #include "../error.hpp"
-#include "random/utils.hpp"
+#include "utils.hpp"
 
 using std::vector;
 using std::format;
 
 template<typename T = double> requires std::is_floating_point_v<T>
-Result<vector<T> > randexp(size_t n, T rate = 1.0) {
+auto randexp(size_t n, T rate = 1.0) -> Result<vector<T>> {
     if (rate <= 0) {
         return Err(Error::InvalidArgument(format(
             "The rate `rate` must be positive, but got {}",
@@ -27,7 +27,7 @@ Result<vector<T> > randexp(size_t n, T rate = 1.0) {
 }
 
 template<typename T = double> requires std::is_floating_point_v<T>
-Result<T> randexp(T rate = 1.0) {
+auto randexp(T rate = 1.0) -> Result<T> {
     if (rate <= 0) {
         return Err(Error::InvalidArgument(format(
             "The rate `rate` must be positive, but got {}",
@@ -57,11 +57,11 @@ public:
         }
     }
 
-    [[nodiscard]] T get_rate() const {
+    [[nodiscard]] auto get_rate() const -> T {
         return m_rate;
     }
 
-    [[nodiscard]] Result<vector<T> > sample(size_t n) const {
+    [[nodiscard]] auto sample(size_t n) const -> Result<vector<T>> {
         return randexp(n, m_rate);
     }
 };

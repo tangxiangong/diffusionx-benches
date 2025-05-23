@@ -4,13 +4,13 @@
 #include <format>
 #include <type_traits>
 #include "../error.hpp"
-#include "random/utils.hpp"
+#include "utils.hpp"
 
 using std::vector;
 using std::format;
 
 template<typename T = double> requires std::is_floating_point_v<T> || std::is_integral_v<T>
-Result<vector<T> > rand(size_t n, T a = 0, T b = 1) {
+auto rand(size_t n, T a = 0, T b = 1) -> Result<vector<T>> {
     if (a > b) {
         return Err(Error::InvalidArgument(format(
             "The lower bound `a` must be less than the upper bound `b`, but got {} > {}",
@@ -36,7 +36,7 @@ Result<vector<T> > rand(size_t n, T a = 0, T b = 1) {
 }
 
 template<typename T = double> requires std::is_floating_point_v<T> || std::is_integral_v<T>
-Result<T> rand(T a = 0, T b = 1) {
+auto rand(T a = 0, T b = 1) -> Result<T> {
     if (a > b) {
         return Err(Error::InvalidArgument(format(
             "The lower bound `a` must be less than the upper bound `b`, but got {} > {}",
