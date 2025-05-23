@@ -1,0 +1,21 @@
+CompileFlags:
+  Add:
+    - -std=c++23
+    - -I./cpp/include
+    - -I./cpp/include/random
+  Remove: [-W*, -Wall, -Wextra]
+
+Index:
+  Background: Build
+
+Diagnostics:
+  ClangTidy:
+    Add: [performance-*, readability-*, modernize-*]
+    Remove: [readability-identifier-naming, readability-identifier-length, readability-magic-numbers]
+  UnusedIncludes: Strict
+
+InlayHints:
+  Enabled: No
+
+Hover:
+  ShowAKA: Yes 
