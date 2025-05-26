@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
     if(argc > 1) {
         bench_size = std::atoi(argv[1]);
     }
-    size_t len = 10000000;
+    size_t len = 100000000;
 
     auto uniform = [len]() {
         auto result = rand(len);

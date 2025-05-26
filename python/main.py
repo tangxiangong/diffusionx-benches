@@ -82,7 +82,7 @@ def pyo3_bench(N, bench_size):
 
 def main():
     bench_size = 20 if len(sys.argv) <= 1 else int(sys.argv[1])
-    N = 10_000_000
+    N = 100_000_000
 
     pyo3_bench(N, bench_size)
     numpy_bench(N, bench_size)

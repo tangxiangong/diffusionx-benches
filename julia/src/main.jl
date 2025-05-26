@@ -25,7 +25,7 @@ function show_timeit(result)
     println()
 end
 
-N = 10_000_000
+N = 100_000_000
 
 
 

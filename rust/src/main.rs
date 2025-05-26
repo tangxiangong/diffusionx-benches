@@ -35,7 +35,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let bench_size = args.get(1).map(|s| s.parse().unwrap_or(20)).unwrap_or(20);
 
-    let len = 10_000_000;
+    let len = 100_000_000;
 
     println!("=========================Rust==========================");
     println!();
