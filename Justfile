@@ -8,7 +8,7 @@ build:
 
 bench:
     cd cpp/bin && ./random_bench
-    cd rust/target/release && ./rust-bench
+    cd rust/ && cargo run --release
     cd julia && julia --project=. -t 8 src/main.jl
     cd python && uv run main.py
 
