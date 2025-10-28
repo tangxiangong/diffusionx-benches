@@ -1,5 +1,5 @@
 using Random
-using Base.Threads
+using ThreadsX
 
 struct Bm
     x₀::Float64
@@ -8,9 +8,7 @@ struct Bm
         new(x₀, D)
     end
 end
-function StandardBm()
-    return Bm(0.0, 0.5)
-end
+StandardBm() = Bm(0.0, 0.5)
 
 function simulate(bm::Bm, T::Float64, τ::Float64=0.01)
     sigma = sqrt(2 * bm.D * τ)
@@ -21,14 +19,12 @@ function simulate(bm::Bm, T::Float64, τ::Float64=0.01)
     t, x
 end
 
-
 function msd(bm::Bm, T::Float64, N::Int=10_000, τ::Float64=0.01)::Float64
-    val = 0.0
-    @threads for _ in 1:N
+    displacements = ThreadsX.map(1:N) do _
         _, x = simulate(bm, T, τ)
-        val += (x[end] - x[1])^2
+        (x[end] - x[1])^2
     end
-    val / N
+    return sum(displacements) / N
 end
 
 bm = StandardBm()
