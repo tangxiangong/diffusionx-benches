@@ -1,8 +1,9 @@
-function v = bm_msd(T, x0, D, tau, N) 
+function v = bm_msd(T, x0, D, tau, N)
     r = 0.0;
-    parfor k = 1 : N[~, x] = simulate(T, x0, D, tau);
+    parfor k = 1 : N
+        [~, x] = simulate(T, x0, D, tau);
         r = r + (x(end) - x(1)) ^ 2;
-    end 
+    end
     v = r / N;
 end
 
