@@ -3,5 +3,13 @@ name = "rust-bench"
 version = "0.1.0"
 edition = "2024"
 
+[[bin]]
+name = "bm"
+path = "src/bm.rs"
+
+[[bin]]
+name = "langevin"
+path = "src/langevin.rs"
+
 [dependencies]
 diffusionx = { version = "0.4", default-features = false }
