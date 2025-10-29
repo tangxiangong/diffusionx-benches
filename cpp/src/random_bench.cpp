@@ -1,10 +1,11 @@
 #include <algorithm>
 #include <chrono>
 #include <numeric>
-#include <print>
+#include <format>
 #include <vector>
 #include <fstream>
 #include <filesystem>
+#include <iostream>
 
 #include "random/normal.hpp"
 #include "random/uniform.hpp"
@@ -37,9 +38,9 @@ void show_timeit(const vector<double> &result, std::ofstream &log_file) {
     }) / result.size());
     double min = *std::ranges::min_element(result);
     double max = *std::ranges::max_element(result);
-    
-    std::println(log_file, "mean: {:.4f}, stddev: {:.4f}, min: {:.4f}, max: {:.4f}", mean, stddev, min, max);
-    std::println(log_file, "");
+
+    log_file << std::format("mean: {:.4f}, stddev: {:.4f}, min: {:.4f}, max: {:.4f}\n", mean, stddev, min, max);
+    log_file << "\n";
 }
 
 int main(int argc, char **argv) {
@@ -51,11 +52,11 @@ int main(int argc, char **argv) {
 
     // 创建log目录（如果不存在）
     std::filesystem::create_directories("../../log");
-    
+
     // 打开日志文件
     std::ofstream log_file("../../log/cpp.log");
     if (!log_file.is_open()) {
-        std::println(stderr, "Error: Could not open log file ../../log/cpp.log");
+        std::cerr << "Error: Could not open log file ../../log/cpp.log\n";
         return 1;
     }
 
@@ -73,26 +74,26 @@ int main(int argc, char **argv) {
         auto result = randn(len);
         return *result;
     };
-    
-    std::println(log_file, "==========================C++==========================");
-    std::println(log_file, "");
-    
-    std::println(log_file, "bench size: {}, length of random vectors: {}", bench_size, len);
-    std::println(log_file, "unit: second");
-    std::println(log_file, "");
-    
-    std::println(log_file, "-----------uniform random number sampling--------------");
+
+    log_file << "==========================C++==========================\n";
+    log_file << "\n";
+
+    log_file << std::format("bench size: {}, length of random vectors: {}\n", bench_size, len);
+    log_file << "unit: second\n";
+    log_file << "\n";
+
+    log_file << "-----------uniform random number sampling--------------\n";
     show_timeit(timeit(uniform, bench_size), log_file);
 
-    std::println(log_file, "------------normal random number sampling--------------");
+    log_file << "------------normal random number sampling--------------\n";
     show_timeit(timeit(normal, bench_size), log_file);
 
-    std::println(log_file, "-----------stable random number sampling---------------");
+    log_file << "-----------stable random number sampling---------------\n";
     show_timeit(timeit(stable, bench_size), log_file);
 
-    std::println(log_file, "=======================================================");
-    std::println(log_file, "");
-    
+    log_file << "=======================================================\n";
+    log_file << "\n";
+
     // 关闭日志文件
     log_file.close();
     return 0;
