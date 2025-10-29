@@ -22,7 +22,7 @@ def show_timeit(result, log_file):
     max_v = np.max(result)
     print(
         f"mean: {mean_v:.4f}, stddev: {stddev_v:.4f}, min: {min_v:.4f}, max: {max_v:.4f}",
-        file=log_file
+        file=log_file,
     )
     print(file=log_file)
 
@@ -88,13 +88,13 @@ def main():
 
     # 创建log目录（如果不存在）
     os.makedirs("../log", exist_ok=True)
-    
+
     # 打开日志文件
     with open("../log/python.log", "w") as log_file:
         print(f"bench size: {bench_size}, length of random vectors: {N}", file=log_file)
         print("unit: second", file=log_file)
         print(file=log_file)
-        
+
         pyo3_bench(N, bench_size, log_file)
         numpy_bench(N, bench_size, log_file)
 
