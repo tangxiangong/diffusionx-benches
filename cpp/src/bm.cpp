@@ -1,10 +1,10 @@
 #include <chrono>
-#include <thread>
 #include <utility>
 #include <vector>
 #include <print>
 #include <ranges>
 #include "random/normal.hpp"
+#include "utils.hpp"
 
 using std::vector;
 
@@ -21,25 +21,12 @@ auto timeit(F func) -> double {
     return elapsed;
 }
 
-auto linspace(double start, double end, double step) -> vector<double> {
-    vector<double> result;
-    for (double val = start; val <= end; val += step) {
-        result.push_back(val);
-    }
-    if (std::abs(result.back()-end) > 1e-5) {
-        result.push_back(end);
-    } else {
-        result.back() = end;
-    }
-    return result;
-}
-
 struct Bm {
     double starting_position = 0.0;
     double diffusivity = 0.5;
     Bm() = default;
     Bm(double starting_position, double diffusivity) : starting_position(starting_position), diffusivity(diffusivity) {}
-    
+
     [[nodiscard]] auto simulate(double duration, double tau = 0.01) const -> std::pair<vector<double>, vector<double>> {
         vector<double> t = linspace(0.0, duration, tau);
         size_t n = t.size() - 1;
@@ -54,42 +41,10 @@ struct Bm {
     }
 
     [[nodiscard]] auto msd(double duration, double tau=0.01, size_t particles=10000) const -> double {
-        unsigned int num_threads = std::thread::hardware_concurrency();
-        vector<std::thread> threads;
-        threads.reserve(num_threads);
-
-        vector<double> partial_results(num_threads, 0.0);
-
-        size_t chunk_size = particles / num_threads;
-        size_t remainder = particles % num_threads;
-
-        for(size_t i = 0; i < num_threads; ++i) {
-            size_t start = i*chunk_size;
-            size_t end = start + chunk_size;
-            if(i == num_threads - 1) {
-                end += remainder;
-            }
-            // Explicit capture - copy this to avoid shared pointer access
-            threads.emplace_back([this, i, start, end, duration, tau, &partial_results]() -> void {
-                double local_sum = 0.0;
-                for(size_t j = start; j < end; ++j) {
-                    auto [t, x] = simulate(duration, tau);
-                    double dx = x.back() - x.front();
-                    local_sum += (dx * dx);
-                }
-                partial_results[i] = local_sum;
-            });
-        }
-
-        for(auto& thread : threads) {
-            thread.join();
-        }
-
-        double total_sum = 0.0;
-        for(double partial: partial_results) {
-            total_sum += partial;
-        }
-        return total_sum / static_cast<double>(particles);
+        auto simulator = [this, duration, tau]() -> std::pair<vector<double>, vector<double>> {
+            return this->simulate(duration, tau);
+        };
+        return mc_msd(particles, simulator);
     }
 };
 

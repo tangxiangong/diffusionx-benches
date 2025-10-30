@@ -27,7 +27,9 @@ foreach(src_file ${ALL_SRC_FILES})
     # 链接第三方库
     target_link_libraries(${executable_name} PRIVATE diffusionx)
     target_include_directories(${executable_name}
-        PRIVATE ${PROJECT_SOURCE_DIR}/include)
+        PRIVATE
+            ${PROJECT_SOURCE_DIR}/diffusionx/include
+            ${PROJECT_SOURCE_DIR}/include)
 endforeach()
 
 add_custom_command(

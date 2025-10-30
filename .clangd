@@ -11,11 +11,11 @@ Index:
 Diagnostics:
   ClangTidy:
     Add: [performance-*, readability-*, modernize-*]
-    Remove: [readability-identifier-naming, readability-identifier-length, readability-magic-numbers]
+    Remove: [readability-identifier-naming, readability-identifier-length, readability-magic-numbers, modernize-use-trailing-return-type]
   UnusedIncludes: Strict
 
 InlayHints:
-  Enabled: No
+  Enabled: Yes
 
 Hover:
-  ShowAKA: Yes 
+  ShowAKA: Yes
