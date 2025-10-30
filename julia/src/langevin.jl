@@ -14,10 +14,10 @@ function simulate(eq::Langevin, T::Float64, τ::Float64=0.01)
     t = collect(0:τ:T)
     n = length(t) - 1
     x = zeros(n + 1)
-    noise = randn(n)
+    # noise = randn(n)
     x[1] = eq.x₀
     @inbounds for i in 1:n
-        dw = eq.g(x[i], t[i+1]) * sqrt(τ) * noise[i]
+        dw = eq.g(x[i], t[i+1]) * sqrt(τ) * randn()
         x[i+1] = x[i] + eq.f(x[i], t[i+1]) * τ + dw
     end
     t, x
