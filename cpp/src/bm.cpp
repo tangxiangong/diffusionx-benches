@@ -1,4 +1,3 @@
-#include <chrono>
 #include <utility>
 #include <vector>
 #include <print>
@@ -7,19 +6,6 @@
 #include "utils.hpp"
 
 using std::vector;
-
-constexpr double NANOSECONDS_PER_SECOND = 1000000000.0;
-
-template<typename F>
-auto timeit(F func) -> double {
-    auto start_time = std::chrono::high_resolution_clock::now();
-    auto res = func();
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
-    auto elapsed = static_cast<double>(duration.count()) / NANOSECONDS_PER_SECOND;
-
-    return elapsed;
-}
 
 struct Bm {
     double starting_position = 0.0;
