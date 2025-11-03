@@ -5,6 +5,9 @@
 #include <thread>
 #include <concepts>
 #include <chrono>
+#include <algorithm>
+#include <numeric>
+#include <print>
 
 using std::vector;
 
@@ -37,6 +40,27 @@ auto linspace(double start, double end, double step) -> vector<double> {
         result.back() = end;
     }
     return result;
+}
+
+template<typename F>
+auto bench(F func, size_t bench_size) -> void {
+    vector<double> result(bench_size);
+    for (auto &val : result) {
+        auto start_time = std::chrono::high_resolution_clock::now();
+        auto res = func();
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
+        auto elapsed = static_cast<double>(duration.count()) / NANOSECONDS_PER_SECOND;
+        val = elapsed;
+    }
+    double mean = std::accumulate(result.begin(), result.end(), 0.0) / result.size() * 1000.0;
+    double stddev = std::sqrt(std::accumulate(result.begin(), result.end(), 0.0, [mean](double acc, double x) {
+        return acc + ((x * 1000  - mean) * (x * 1000 - mean));
+    }) / result.size());
+    double min = *std::ranges::min_element(result) * 1000.0;
+    double max = *std::ranges::max_element(result) * 1000.0;
+
+    std::println("mean: {:.4f} ms, stddev: {:.4f} , min: {:.4f} ms, max: {:.4f} ms", mean, stddev, min, max);
 }
 
 template<Simulator T>

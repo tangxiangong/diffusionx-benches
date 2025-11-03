@@ -55,13 +55,18 @@ int main() {
     auto duration = std::views::iota(1, 11) | std::views::transform([](int v) -> double {
         return static_cast<double>(v * 100);
     });
-    auto func = [&]() -> int {
-        for(const double& d: duration) {
-            double m = eq.msd(d);
-        }
+    auto msd_bench = [&]() -> int {
+        double m = eq.msd(1000.0);
         return 0;
     };
-    auto elapsed = timeit(func);
-    std::println("Elapsed {}s", elapsed);
+    auto simulation_bench = [&]() -> int {
+        auto result = eq.simulate(1000.0);
+        return 0;
+    };
+    std::println("Langevin Equation MSD Benchmark:");
+    bench(msd_bench, 10);
+    std::println("Langevin Equation Simulation Benchmark:");
+    bench(simulation_bench, 10000);
+
     return 0;
 }
