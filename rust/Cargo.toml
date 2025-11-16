@@ -11,5 +11,9 @@ path = "src/bm.rs"
 name = "langevin"
 path = "src/langevin.rs"
 
+[[bin]]
+name = "levy"
+path = "src/levy.rs"
+
 [dependencies]
-diffusionx = { version = "0.4", default-features = false }
+diffusionx = "0.5"
