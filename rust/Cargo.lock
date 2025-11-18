@@ -56,9 +56,9 @@ checksum = "d0a5c400df2834b80a4c3327b3aad3a4c4cd4de0629063962b03235697506a28"
 
 [[package]]
 name = "diffusionx"
-version = "0.5.0"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3bc55fd381f6e8a8ef821ded83601df459e3fcede4dde769474fd33b1cb0a870"
+checksum = "1636fae0bcbaf7e085bab342ab097d54dfed1ecf450c9d707dfacf2b916fe7ab"
 dependencies = [
  "gauss-quad",
  "num-complex",
