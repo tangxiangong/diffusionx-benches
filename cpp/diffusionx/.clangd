@@ -1,0 +1,19 @@
+CompileFlags:
+  Add:
+    - -std=c++23
+  Remove: [-W*, -Wall, -Wextra]
+
+Index:
+  Background: Build
+
+Diagnostics:
+  ClangTidy:
+    Add: [performance-*, readability-*, modernize-*]
+    Remove: [readability-identifier-naming, readability-identifier-length, readability-magic-numbers, modernize-use-trailing-return-type]
+  UnusedIncludes: Strict
+
+InlayHints:
+  Enabled: Yes
+
+Hover:
+  ShowAKA: Yes

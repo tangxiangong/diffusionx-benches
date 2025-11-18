@@ -1,0 +1,2 @@
+Justfile linguist-detectable=false
+*.cppm linguist-language=C++
