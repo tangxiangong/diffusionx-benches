@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.31)
 project(cpp-bench)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # macOS 特定配置
@@ -14,22 +16,21 @@ if(APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isysroot ${MACOS_SDK_PATH}")
 endif()
 
-# 添加 lib 目录到链接目录
-link_directories(${PROJECT_SOURCE_DIR}/lib)
+# 将 diffusionx 的 vcpkg_installed 目录添加到 CMAKE_PREFIX_PATH
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/diffusionx/vcpkg_installed/arm64-osx")
 
-file(GLOB_RECURSE ALL_SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
+add_subdirectory(diffusionx)
+
+# 添加 include 目录
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # 为 src/ 下的每个 .cpp 文件生成一个可执行程序
+file(GLOB_RECURSE ALL_SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
+
 foreach(src_file ${ALL_SRC_FILES})
-    # 获取不带扩展名的文件名作为可执行文件名
     get_filename_component(executable_name ${src_file} NAME_WE)
     add_executable(${executable_name} ${src_file})
-    # 链接第三方库
     target_link_libraries(${executable_name} PRIVATE diffusionx)
-    target_include_directories(${executable_name}
-        PRIVATE
-            ${PROJECT_SOURCE_DIR}/diffusionx/include
-            ${PROJECT_SOURCE_DIR}/include)
 endforeach()
 
 add_custom_command(
