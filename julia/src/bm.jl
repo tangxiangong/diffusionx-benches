@@ -19,12 +19,22 @@ function simulate(bm::Bm, T::Float64, τ::Float64=0.01)
     t, x
 end
 
+function displacement(bm::Bm, T::Float64, τ::Float64=0.01)
+    n = ceil(Int, T / τ)
+    sigma = sqrt(2 * bm.D * τ)
+    noise = randn(n - 1) .* sigma
+    delta_x = sum(noise)
+    last_step = T - (n - 1) * τ
+    delta_x += randn() * sqrt(2 * bm.D * last_step)
+    delta_x
+end
+
+
 function msd(bm::Bm, T::Float64, N::Int=10_000, τ::Float64=0.01)::Float64
     displacements = ThreadsX.map(1:N) do _
-        _, x = simulate(bm, T, τ)
-        (x[end] - x[1])^2
+        displacement(bm, T, τ)
     end
-    return sum(displacements) / N
+    sum(displacements .^ 2) / N
 end
 
 bm = StandardBm()
