@@ -16,4 +16,4 @@ name = "levy"
 path = "src/levy.rs"
 
 [dependencies]
-diffusionx = "0.6"
+diffusionx = "0.6.3"
