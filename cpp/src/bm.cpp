@@ -9,7 +9,7 @@ using std::vector;
 
 int main() {
   // 创建布朗运动：起始位置 0.0，扩散系数 0.5
-  BrownianMotion bm{0.0, 0.5};
+  Bm bm{};
 
   auto duration =
       std::views::iota(1, 11) | std::views::transform([](int v) -> double {
@@ -19,9 +19,8 @@ int main() {
   auto func = [&]() -> int {
     for (const double &d : duration) {
       // 模拟轨迹
-      auto result = bm.simulate(d, 0.01);
+      auto result = bm.msd(d, 10000, 0.01);
       if (!result) {
-        std::println("Simulation failed: {}", result.error().message);
         return 1;
       }
     }
