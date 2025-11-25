@@ -6,115 +6,63 @@
 #include <concepts>
 #include <numeric>
 #include <print>
-#include <thread>
 #include <vector>
 
 using std::vector;
 
-template <typename T>
-concept Simulator = std::invocable<T> &&
-                    std::same_as<std::invoke_result_t<T>,
-                                 std::pair<vector<double>, vector<double>>>;
-
-constexpr double NANOSECONDS_PER_SECOND = 1000000000.0;
-
-template <typename F> auto timeit(F func) -> double {
-  auto start_time = std::chrono::high_resolution_clock::now();
-  auto res = func();
-  auto end_time = std::chrono::high_resolution_clock::now();
-  auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
-      end_time - start_time);
-  auto elapsed = static_cast<double>(duration.count()) / NANOSECONDS_PER_SECOND;
-
-  return elapsed;
-}
-
-auto linspace(double start, double end, double step) -> vector<double> {
-  vector<double> result;
-  for (double val = start; val <= end; val += step) {
-    result.push_back(val);
-  }
-  if (std::abs(result.back() - end) > 1e-5) {
-    result.push_back(end);
+inline auto format_time(double nanoseconds) {
+  struct {
+    double value;
+    const char *unit;
+  } result;
+  if (nanoseconds < 1e3) {
+    result.value = nanoseconds;
+    result.unit = "ns";
+  } else if (nanoseconds < 1e6) {
+    result.value = nanoseconds / 1e3;
+    result.unit = "μs";
+  } else if (nanoseconds < 1e9) {
+    result.value = nanoseconds / 1e6;
+    result.unit = "ms";
   } else {
-    result.back() = end;
+    result.value = nanoseconds / 1e9;
+    result.unit = "s";
   }
   return result;
 }
 
-template <typename F> auto bench(F func, size_t bench_size) -> void {
+template <typename F>
+  requires std::invocable<F> && std::same_as<std::invoke_result_t<F>, void>
+void bench(std::string_view &&name, F func, size_t bench_size) {
+  func();
   vector<double> result(bench_size);
   for (auto &val : result) {
     auto start_time = std::chrono::high_resolution_clock::now();
-    auto res = func();
+    func();
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
         end_time - start_time);
-    auto elapsed =
-        static_cast<double>(duration.count()) / NANOSECONDS_PER_SECOND;
-    val = elapsed;
-  }
-  double mean = std::accumulate(result.begin(), result.end(), 0.0) /
-                result.size() * 1000.0;
-  double stddev = std::sqrt(std::accumulate(result.begin(), result.end(), 0.0,
-                                            [mean](double acc, double x) {
-                                              return acc + ((x * 1000 - mean) *
-                                                            (x * 1000 - mean));
-                                            }) /
-                            result.size());
-  double min = *std::ranges::min_element(result) * 1000.0;
-  double max = *std::ranges::max_element(result) * 1000.0;
-
-  std::println(
-      "mean: {:.4f} ms, stddev: {:.4f} , min: {:.4f} ms, max: {:.4f} ms", mean,
-      stddev, min, max);
-}
-
-template <Simulator T>
-auto mc_moment(size_t particles, int order, T simulate) -> double {
-  unsigned int num_threads = std::thread::hardware_concurrency();
-  vector<std::thread> threads;
-  threads.reserve(num_threads);
-
-  vector<double> partial_results(num_threads, 0.0);
-
-  size_t chunk_size = particles / num_threads;
-  size_t remainder = particles % num_threads;
-
-  for (size_t i = 0; i < num_threads; ++i) {
-    size_t start = i * chunk_size;
-    size_t end = start + chunk_size;
-    if (i == num_threads - 1) {
-      end += remainder;
-    }
-    // Explicit capture - copy this to avoid shared pointer access
-    threads.emplace_back(
-        [i, start, end, order, &partial_results, &simulate]() -> void {
-          double local_sum = 0.0;
-          for (size_t j = start; j < end; ++j) {
-            auto [t, x] = simulate();
-            double dx = x.back() - x.front();
-            double inc;
-            if (order == 1) {
-              inc = dx;
-            } else {
-              inc = std::pow(dx, order);
-            }
-            local_sum += inc;
-          }
-          partial_results[i] = local_sum;
-        });
+    val = static_cast<double>(duration.count());
   }
 
-  for (auto &thread : threads) {
-    thread.join();
-  }
+  double mean_ns =
+      std::accumulate(result.begin(), result.end(), 0.0) / result.size();
+  auto [mean, mean_unit] = format_time(mean_ns);
+  double variance = std::accumulate(result.begin(), result.end(), 0.0,
+                                    [mean_ns](double acc, double x) {
+                                      double diff = x - mean_ns;
+                                      return acc + (diff * diff);
+                                    }) /
+                    result.size();
+  auto [stddev, stddev_unit] = format_time(std::sqrt(variance));
+  auto [min, min_unit] = format_time(*std::ranges::min_element(result));
+  auto [max, max_unit] = format_time(*std::ranges::max_element(result));
 
-  double total_sum = 0.0;
-  for (double partial : partial_results) {
-    total_sum += partial;
-  }
-  return total_sum / static_cast<double>(particles);
+  std::println("{}", name);
+  std::println("mean: {:.4f} {}, stddev: {:.4f} {}, min: {:.4f} {}, max: "
+               "{:.4f} {}",
+               mean, mean_unit, stddev, stddev_unit, min, min_unit, max,
+               max_unit);
 }
 
 #endif // DIFFUSIONX_BENCHES_UTILS_HPP

@@ -1,33 +1,17 @@
 #include "utils.hpp"
-#include <print>
-#include <ranges>
-#include <vector>
-
 import diffusionx.simulation.continuous;
 
-using std::vector;
-
 int main() {
-  // 创建布朗运动：起始位置 0.0，扩散系数 0.5
-  Bm bm{};
+    Bm bm{};
 
-  auto duration =
-      std::views::iota(1, 11) | std::views::transform([](int v) -> double {
-        return static_cast<double>(v * 100);
-      });
+    double duration = 1000.0;
+    double time_step = 0.01;
+    size_t num_samples = 10000;
 
-  auto func = [&]() -> int {
-    for (const double &d : duration) {
-      // 模拟轨迹
-      auto result = bm.msd(d, 10000, 0.01);
-      if (!result) {
-        return 1;
-      }
-    }
+    auto func = [&]() {
+        auto result = bm.msd(duration, num_samples, time_step).value();
+    };
+
+    bench("brownian motion", func, 10);
     return 0;
-  };
-
-  auto elapsed = timeit(func);
-  std::println("Elapsed {}s", elapsed);
-  return 0;
 }
