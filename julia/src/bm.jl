@@ -1,5 +1,6 @@
 using Random
 using ThreadsX
+using BenchmarkTools
 
 struct Bm
     x₀::Float64
@@ -38,6 +39,5 @@ function msd(bm::Bm, T::Float64, N::Int=10_000, τ::Float64=0.01)::Float64
 end
 
 bm = StandardBm()
-T = collect(100.0:100.0:1000.0)
-@time m = [msd(bm, t) for t in T]
-println(m)
+msd(bm, 1.0)
+@benchmark msd(bm, 1000.0)
