@@ -3,17 +3,12 @@ name = "rust-bench"
 version = "0.1.0"
 edition = "2024"
 
-[[bin]]
-name = "bm"
-path = "src/bm.rs"
-
-[[bin]]
-name = "langevin"
-path = "src/langevin.rs"
-
-[[bin]]
-name = "levy"
-path = "src/levy.rs"
-
 [dependencies]
 diffusionx = "0.6.3"
+
+[dev-dependencies]
+criterion = "0.7"
+
+[[bench]]
+name = "bm"
+harness = false
