@@ -3,14 +3,11 @@ name = "python-bench"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
-    "diffusionx",
+    "diffusionx>=0.1.2",
     "numba>=0.62.1",
-    "numpy>=2.3.4",
-    "psutil>=7.1.2",
-    "scipy>=1.16.2",
+    "numpy>=2.3.5",
+    "psutil>=7.1.3",
+    "scipy>=1.16.3",
 ]
-
-[tool.uv.sources]
-diffusionx = { path = "wheels/diffusionx-0.1.4-cp39-abi3-macosx_11_0_arm64.whl" }
