@@ -1,5 +1,8 @@
 # Benchmarks
 
+> [!NOTE]
+> This repository is moved to [py-diffusionx/benchmark](https://github.com/tangxiangong/py-diffusionx/tree/main/benchmark).
+
 ## Random Number Sampling
 
 ### Uniform 
