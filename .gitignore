@@ -4,3 +4,4 @@
 compile_commands.json
 log/
 target/
+**/__pycache__
