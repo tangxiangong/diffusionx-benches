@@ -1,4 +1,4 @@
-from math import sqrt
+from math import ceil, sqrt
 
 import numpy as np
 from numba import (  # pyright: ignore [reportMissingTypeStubs]
@@ -7,19 +7,31 @@ from numba import (  # pyright: ignore [reportMissingTypeStubs]
 )
 
 
-class Bm:
+class PyBm:
     def __init__(self, starting_point: float = 0.0, diffusivity: float = 0.5):
         self.starting_point: float = starting_point
         self.diffusivity: float = diffusivity
 
-    def simulate(self, duration: float, tau: float = 0.01):
-        t = np.arange(0, duration, tau)
-        n = len(t) - 1
-        sigma = sqrt(2 * self.diffusivity * tau)
-        noise = np.random.normal(0, 1, n) * sigma
-        noise = np.insert(noise, 0, self.starting_point)
-        x = np.cumsum(noise)
+    def simulate(self, duration: float, time_step: float = 0.01):
+        num_steps = ceil(duration / time_step)
+        sigma = sqrt(2 * self.diffusivity * time_step)
+        noises = np.random.standard_normal(num_steps) * sigma
+        last_step = duration - (num_steps - 1) * time_step
+        noises[-1] = noises[-1] * sqrt(last_step / time_step)
+        noises = np.insert(noises, 0, self.starting_point)
+        t = np.arange(0, duration, time_step)
+        if t[-1] != duration:
+            t = np.append(t, duration)
+        x = np.cumsum(noises)
         return t, x
+
+    def displacement(self, duration: float, time_step: float = 0.01):
+        num_steps = ceil(duration / time_step)
+        sigma = sqrt(2 * self.diffusivity * time_step)
+        noises = np.random.standard_normal(num_steps) * sigma
+        last_step = duration - (num_steps - 1) * time_step
+        noises[-1] = noises[-1] * sqrt(last_step / time_step)
+        return np.sum(noises)
 
     def msd(
         self,
@@ -40,28 +52,48 @@ def _msd(
     duration: float,
     diffusivity: float = 0.5,
     N: int = 10_000,
-    tau: float = 0.01,
+    time_step: float = 0.01,
 ):
     total = 0.0
     for _ in prange(N):
-        t = np.arange(0, duration, tau)
-        n = len(t) - 1
-        sigma = sqrt(2 * diffusivity * tau)
-        noise = np.random.normal(0, 1, n) * sigma
-        x = np.cumsum(noise)
-        total += x[-1] ** 2  # pyright: ignore [reportAny]
+        num_steps = ceil(duration / time_step)
+        sigma = sqrt(2 * diffusivity * time_step)
+        noises = np.random.standard_normal(num_steps) * sigma
+        last_step = duration - (num_steps - 1) * time_step
+        noises[-1] = noises[-1] * sqrt(last_step / time_step)
+        total += np.sum(noises) ** 2
     return total / N
 
 
 if __name__ == "__main__":
-    import time
+    from utils import bench
 
-    duration = [i for i in range(100, 1100, 100)]
-    bm = Bm()
-    _ = bm.msd(1.0)
-    msds = [0.0 for _ in duration]
-    start = time.time()
-    for i, d in enumerate(duration):
-        msds[i] = bm.msd(d)
-    elapsed_parallel = time.time() - start
-    print(f" Time elapsed: {elapsed_parallel:.3f} seconds")
+    bench_size = 100
+
+    duration = 100.0
+    time_step = 0.01
+    particles = 10000
+
+    py_bm = PyBm()
+
+    def py_simulate():
+        return py_bm.simulate(duration, time_step)
+
+    def py_msd():
+        return py_bm.msd(duration, particles, time_step)
+
+    bench("Brownian motion simulation", py_simulate, bench_size)
+    bench("Brownian motion msd", py_msd, bench_size)
+
+    from diffusionx.simulation import Bm
+
+    rs_bm = Bm()
+
+    def rs_simulate():
+        return rs_bm.simulate(duration, time_step)
+
+    def rs_msd():
+        return rs_bm.msd(duration, particles=particles, time_step=time_step)
+
+    bench("Brownian motion simulation (PyO3)", rs_simulate, bench_size)
+    bench("Brownian motion msd (PyO3)", rs_msd, bench_size)
