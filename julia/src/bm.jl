@@ -1,6 +1,7 @@
 using Random
 using ThreadsX
-using BenchmarkTools
+
+include("utils.jl")
 
 struct Bm
     x₀::Float64
@@ -52,5 +53,9 @@ function msd(bm::Bm, T::Float64, N::Int=10_000, τ::Float64=0.01)::Float64
 end
 
 bm = StandardBm()
-msd(bm, 1.0)
-@benchmark msd(bm, 1000.0)
+
+simulate(bm, 1.0, 0.01)
+msd(bm, 1.0, 100, 0.01)
+
+bench("Brownian motion simulation", () -> simulate(bm, 100.0, 0.01))
+bench("Brownian motion msd", () -> msd(bm, 100.0, 10_000, 0.01))
