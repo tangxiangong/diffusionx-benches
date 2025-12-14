@@ -4,25 +4,26 @@ requires-python = ">=3.11"
 
 [[package]]
 name = "diffusionx"
-version = "0.1.2"
+version = "0.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/53/06/678b92eceaf558029f284caf4009e0d5fd9c01e518a541f5aa3f964bd5bb/diffusionx-0.2.0.tar.gz", hash = "sha256:8a2011a0f692f0b05709f68c51700811fdc2745e4cf1f9b8725b5fbce8281690", size = 56418, upload-time = "2025-12-11T11:27:59.527Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d6/7e/b5e4c9ae95031e9e0fcba07f7086574de8249016a41a3be80266132d9f5c/diffusionx-0.1.2-cp311-abi3-macosx_10_12_x86_64.whl", hash = "sha256:5280da39db63595608934f9ca301e6bb4352e03cdca9000856307d017d7b0084", size = 1409225, upload-time = "2025-12-01T01:12:11.837Z" },
-    { url = "https://files.pythonhosted.org/packages/83/41/000ea110b392e711a80805606c1dccc6287710495e5d4bd69e3b6c7a06bf/diffusionx-0.1.2-cp311-abi3-macosx_11_0_arm64.whl", hash = "sha256:da1adbcff750a5e39cec01addc1247f39e4f48d1afea4618d8f08c9fbdfe4d8c", size = 1301412, upload-time = "2025-12-01T01:12:13.643Z" },
-    { url = "https://files.pythonhosted.org/packages/29/58/c259e29f44a863ae7c2a4ba877724c38ccaf6387b8ddb102fa1458217945/diffusionx-0.1.2-cp311-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:6636ec4e037538a6cec5085e19f87cd9696d1f83a4b6d788d7615b368764c2cb", size = 1423926, upload-time = "2025-12-01T01:12:15.074Z" },
-    { url = "https://files.pythonhosted.org/packages/6a/cd/091cc4f467d2aadfd930e15553257f87a4f9edd3b0f65817598c2fd723ff/diffusionx-0.1.2-cp311-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:1f4f77198b8cda7e7fc96921ab14f9e320c4125384382344828ff6aae37c42ca", size = 1513796, upload-time = "2025-12-01T01:12:16.505Z" },
-    { url = "https://files.pythonhosted.org/packages/e9/ba/7366f7665a7609d1164854771e72af0063668626aa2a7d7ac9e5d5447241/diffusionx-0.1.2-cp311-abi3-win_amd64.whl", hash = "sha256:f3cddd9a94de5ded156d2e225b56b4e59da280dde2354d95cd401d5ec4ab32de", size = 1330509, upload-time = "2025-12-01T01:12:17.92Z" },
-    { url = "https://files.pythonhosted.org/packages/7a/d9/3c4513374f51b93241cbf7bbb5efa8a06f9469e70aaa66717115973207bf/diffusionx-0.1.2-cp311-abi3-win_arm64.whl", hash = "sha256:90434603bd840aa1fe0554ec214cf56a158a2e8891a01c4efb4a8e51832cc7c1", size = 1162814, upload-time = "2025-12-01T01:12:19.35Z" },
-    { url = "https://files.pythonhosted.org/packages/c5/da/a14ff33c27bbd7feabef0343e55a09dfdb8f2bf890e887fdb613fa85f42f/diffusionx-0.1.2-cp313-cp313t-macosx_10_12_x86_64.whl", hash = "sha256:ff45631fb3d88088045d2e9fc3f6634206975fb255da5d40e698b3055552ca5a", size = 1403372, upload-time = "2025-12-01T01:12:20.719Z" },
-    { url = "https://files.pythonhosted.org/packages/0c/a6/aa935ac77ad5c15b8c15ef4945d50ae13cf4ca6cbd63131229f14f8ca634/diffusionx-0.1.2-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:d2f078361c01662c39a91a90d01cd9f8d95e3e92126dd055b9c895b493bc4a2e", size = 1299412, upload-time = "2025-12-01T01:12:22.556Z" },
-    { url = "https://files.pythonhosted.org/packages/ec/33/c14ef51af5c4ef9fad2a2da53640370b46aa804383bb642c8de970dc76b4/diffusionx-0.1.2-cp313-cp313t-manylinux_2_28_aarch64.whl", hash = "sha256:d27e185f933e694f8e1d75162d176a6c5bf2ffaaeb682d7664b8def665fca9e1", size = 1422647, upload-time = "2025-12-01T01:12:24.157Z" },
-    { url = "https://files.pythonhosted.org/packages/cb/c7/4e36c4aeb679d35128fb84078c977fcb98d93ee0e545242493a9ef48f707/diffusionx-0.1.2-cp313-cp313t-manylinux_2_28_x86_64.whl", hash = "sha256:e3c1849f769e3b052d8f4f64345c7db4b4cab4d9d485f60559c6b3b44cd8680e", size = 1512819, upload-time = "2025-12-01T01:12:26.062Z" },
-    { url = "https://files.pythonhosted.org/packages/a2/3c/6d6edd7181b32d73dbc175f9626d0d5f70317acb6be3d8595d241a062528/diffusionx-0.1.2-cp313-cp313t-win_amd64.whl", hash = "sha256:524e1e5d7f40b3f6c0887231d213eb30b3942eb25586c86323bd492649603c2f", size = 1327900, upload-time = "2025-12-01T01:12:27.355Z" },
-    { url = "https://files.pythonhosted.org/packages/f6/1b/3329ca1674003c5aaf9bbb0db9c898bf536fc4088edb43bb6cf9a792635f/diffusionx-0.1.2-cp313-cp313t-win_arm64.whl", hash = "sha256:d84cda415962409e4c91b14b6e773204cb4f9220ed84e05fbdb34acdba6d32bb", size = 1159793, upload-time = "2025-12-01T01:12:28.77Z" },
-    { url = "https://files.pythonhosted.org/packages/41/f5/205d5ec89681518b64079759b5dc9a068563e0c2bbf325a62890955ffae6/diffusionx-0.1.2-cp314-cp314t-win_arm64.whl", hash = "sha256:a30ad0eaac7af88201f39e65368f0b3bb1e254b28735da6b297de5b7d91ecfdb", size = 1160300, upload-time = "2025-12-01T01:12:30.179Z" },
+    { url = "https://files.pythonhosted.org/packages/b4/d6/47ad01a6b021143566c29f93fd73087d8ab15c9a8f9fcf4f94b6db1a1bef/diffusionx-0.2.0-cp311-abi3-macosx_10_12_x86_64.whl", hash = "sha256:70a0bb566cbca61aa0dd701110abe8c37ffe70bcfaf916e6d4b55d8dc570306e", size = 1504715, upload-time = "2025-12-11T11:27:37.96Z" },
+    { url = "https://files.pythonhosted.org/packages/4a/29/356c4939f32b8076e4446c9c6eb8bbe908115377b9ca58449eb0b6091c71/diffusionx-0.2.0-cp311-abi3-macosx_11_0_arm64.whl", hash = "sha256:85c113bc35b249ab7e49daa9c4b88aeefc63f6889f9c18d3305815fdff008dff", size = 1387495, upload-time = "2025-12-11T11:27:40.167Z" },
+    { url = "https://files.pythonhosted.org/packages/9f/e8/0f26eb048ac3253b175ca24db0bbbdf27955073ce97d88eabee8d70afe9d/diffusionx-0.2.0-cp311-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:87aa280577cd99e3b8e729d7d34a527d973de0ffed84632b889201622d6ae1d2", size = 1508013, upload-time = "2025-12-11T11:27:42.705Z" },
+    { url = "https://files.pythonhosted.org/packages/35/fe/2a90bb0b5c3797ba8ea9b9a9433435df522bd2f729bd6ecc5b3a88b69f8a/diffusionx-0.2.0-cp311-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:73c729d15ca7efaf5e6f73720f78fe261c8fea3591147f532fa98bd5b54d2885", size = 1598076, upload-time = "2025-12-11T11:27:44.136Z" },
+    { url = "https://files.pythonhosted.org/packages/2d/6f/7875073fbdc4dd79ee6b56a41d4fc1b0df2ded162fab69a02268d5924abf/diffusionx-0.2.0-cp311-abi3-win_amd64.whl", hash = "sha256:33ae2c0c3847aa837c15f22a8ae9179b6ac59093e6b76a7e3684af56e267f13a", size = 1438779, upload-time = "2025-12-11T11:27:45.621Z" },
+    { url = "https://files.pythonhosted.org/packages/b9/e1/e53e8e8871b86593cf4f42cfdb220dcbfa038e85d11f2314fe98bf2b1709/diffusionx-0.2.0-cp311-abi3-win_arm64.whl", hash = "sha256:73fb58bbeea628e7f8cfb577763ed567e45b270f309b2510e326a15ea6948d5c", size = 1248591, upload-time = "2025-12-11T11:27:47.174Z" },
+    { url = "https://files.pythonhosted.org/packages/40/b3/a2a3b7273ea179d3db831a7d1d37a7df733b3a4e5bf07eef5a3968d6b652/diffusionx-0.2.0-cp313-cp313t-macosx_10_12_x86_64.whl", hash = "sha256:6334e7c583de2d10fbfe2838a1ba2dbea0cfa3444f1dbf8c46035b4698c6fac8", size = 1494110, upload-time = "2025-12-11T11:27:48.695Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/f0/4bde9a4e56e187be015b3d48211e3bc71731ea206db58b6c7f19afc3d814/diffusionx-0.2.0-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:f76cf4f1121874ae4551aaf417f948f90ba1e3425a1777d80bf325d3f1803318", size = 1378312, upload-time = "2025-12-11T11:27:50.037Z" },
+    { url = "https://files.pythonhosted.org/packages/2e/08/7af33a1c9f0d72df860f0db126adff9baa66729933d408e9557ccaae8575/diffusionx-0.2.0-cp313-cp313t-manylinux_2_28_aarch64.whl", hash = "sha256:55ab3561bdcbf20c838b77a690cfd872cee78d9ad5a79a000d96adcf5c565c97", size = 1499118, upload-time = "2025-12-11T11:27:51.753Z" },
+    { url = "https://files.pythonhosted.org/packages/94/e9/6a66aa151cea7998be69268ad6001223e26ccac0a648adee0e3e7f4d7160/diffusionx-0.2.0-cp313-cp313t-manylinux_2_28_x86_64.whl", hash = "sha256:b5dc64d23fff200f1fac9235b96ed2848cd96cb59b125ceac21548b8cab3d1ef", size = 1588378, upload-time = "2025-12-11T11:27:53.122Z" },
+    { url = "https://files.pythonhosted.org/packages/45/4e/1bf3ff99088dbfc91439381ded00a385a353770b9bf57137203a848fae9f/diffusionx-0.2.0-cp313-cp313t-win_amd64.whl", hash = "sha256:4aef3963f18deaf8cdc2c34122a9385d4b84dfb591940a6f1211b984903aad2a", size = 1436300, upload-time = "2025-12-11T11:27:54.793Z" },
+    { url = "https://files.pythonhosted.org/packages/da/5b/f85228aa1f9565c14ebec1254460eb1c2ee76d4871e60cab23a1e43c085f/diffusionx-0.2.0-cp313-cp313t-win_arm64.whl", hash = "sha256:db9da1008fe5695b1e582045f1063025b578e613c2a2f564a229dd6e4a37c10c", size = 1250037, upload-time = "2025-12-11T11:27:56.888Z" },
+    { url = "https://files.pythonhosted.org/packages/8d/7b/1e77f528c4af53152dcf9601fef7ba64653bfbe86e515ccba7fb611734e3/diffusionx-0.2.0-cp314-cp314t-win_arm64.whl", hash = "sha256:dabf578b72122b462598e6e1d58c3d3ab37326e25507c1f327e8cba0a2b933be", size = 1249906, upload-time = "2025-12-11T11:27:58.34Z" },
 ]
 
 [[package]]
@@ -169,7 +170,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "diffusionx", specifier = ">=0.1.2" },
+    { name = "diffusionx", specifier = ">=0.2.0" },
     { name = "numba", specifier = ">=0.62.1" },
     { name = "numpy", specifier = ">=2.3.5" },
     { name = "scipy", specifier = ">=1.16.3" },
