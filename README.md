@@ -52,7 +52,7 @@ This document compares the performance of different implementations (C++, Rust, 
 
 ---
 
-## Stochastic Process Simulation
+## Stochastic Process Simulation (Apple Silicon M3 (8-core CPU))
 
 ### Brownian Motion
 
@@ -63,8 +63,8 @@ This document compares the performance of different implementations (C++, Rust, 
 | Language | mean | min | max |
 |:---:|:---:|:---:|:---:|
 | C++ | 355.05 μs | 318.708 μs | 424.750 μs |
-| Rust | 66.683 μs | 65.882 μs | 67.487 μs |
-| **Julia** | **38.006 μs** | **26.875 μs** | **1062 μs** |
+| Rust | 44.526 μs | 43.727 μs | 45.427 μs |
+| **Julia** | **38.425 μs** | **27.042 μs** | **1138 μs** |
 | Python (Rust wrapper) | 61.14 μs | 40.71 μs | 109.83 μs |
 | Python (NumPy / Numba) | 125.66 μs | 119.25 μs | 151.83 μs |
 
@@ -73,7 +73,7 @@ This document compares the performance of different implementations (C++, Rust, 
 | Language | mean | min | max |
 |:---:|:---:|:---:|:---:|
 | C++ | 838.710 ms | 833.522 ms | 848.472 ms |
-| Rust | 77.077 ms | 76.666 ms | 79.639 ms |
-| **Julia** | **47.914 ms** | **44.865 ms** | **68.910 ms** |
+| Rust | 70.148 ms | 69.122 ms | 70.806 ms |
+| **Julia** | **61.153 ms** | **59.512 ms** | **80.264 ms** |
 | Python (Rust wrapper) | 80.67 ms | 77.66 ms | 95.97 ms |
 | Python (NumPy / Numba) | 344.29 ms | 311.43 ms | 448.81 ms |
