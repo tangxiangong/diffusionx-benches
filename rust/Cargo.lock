@@ -201,9 +201,9 @@ checksum = "460fbee9c2c2f33933d720630a6a0bac33ba7053db5344fac858d4b8952d77d5"
 
 [[package]]
 name = "diffusionx"
-version = "0.11.0"
+version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd5c7817d8544a22a84c40d2a3143113cbdb1e2d245fdea2e14e3c3684bb4441"
+checksum = "3ff0d63589200d5a62594e7e8745065ed39a4e58b3a0723759d3726852667614"
 dependencies = [
  "gauss-quad",
  "mimalloc",
@@ -725,10 +725,6 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "diffusionx",
- "rand",
- "rand_distr",
- "rand_xoshiro",
- "rayon",
 ]
 
 [[package]]
